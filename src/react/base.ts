@@ -1,7 +1,7 @@
-import { JSX } from 'react';
+import { JSX, ReactNode } from 'react';
 import { createMiddlewareContext as baseCreateMiddlewareContext } from '../context.ts';
 
-export const createMiddlewareContext = baseCreateMiddlewareContext<JSX.Element>;
+export const createMiddlewareContext = baseCreateMiddlewareContext<JSX.Element, ReactNode>;
 export const baseMiddlewares = createMiddlewareContext();
 
 export const addMiddlewares = baseMiddlewares.addMiddlewares;
