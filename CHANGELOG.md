@@ -1,5 +1,11 @@
 # jsx-middlewares
 
+## 2.4.0
+
+### Minor Changes
+
+- 5a77ee3: Allow returning ReactNode compatible types from middlewares
+
 ## 2.1.0
 
 ### Minor Changes
