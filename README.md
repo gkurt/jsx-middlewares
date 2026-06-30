@@ -1,6 +1,6 @@
 [![npm](https://img.shields.io/npm/v/jsx-middlewares?style=for-the-badge)](https://www.npmjs.com/package/jsx-middlewares)
-[![NPM](https://img.shields.io/npm/l/jsx-middlewares?style=for-the-badge)](https://github.com/KurtGokhan/jsx-middlewares/blob/main/LICENSE)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/KurtGokhan/jsx-middlewares/ci.yml?style=for-the-badge)](https://github.com/KurtGokhan/jsx-middlewares/actions/workflows/ci.yml)
+[![NPM](https://img.shields.io/npm/l/jsx-middlewares?style=for-the-badge)](https://github.com/gkurt/jsx-middlewares/blob/main/LICENSE)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gkurt/jsx-middlewares/ci.yml?style=for-the-badge)](https://github.com/gkurt/jsx-middlewares/actions/workflows/ci.yml)
 
 # JSX Middlewares
 
