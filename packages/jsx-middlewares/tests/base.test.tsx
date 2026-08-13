@@ -1,7 +1,8 @@
-/** @jsxImportSource . */
+/** @jsxImportSource #test-runtime */
 
-import { Middleware, MiddlewareContext } from 'jsx-middlewares';
-import { mw } from './jsx-dev-runtime';
+import { afterEach, describe, expect, test } from 'bun:test';
+import type { Middleware, MiddlewareContext } from 'jsx-middlewares';
+import { mw } from './jsx-dev-runtime.ts';
 
 describe('jsx-middlewares', () => {
   afterEach(() => {
@@ -23,11 +24,11 @@ describe('jsx-middlewares', () => {
   });
 
   test('can add and remove middlewares', () => {
-    const className1: Middleware<any> = function className1(next, type, props, key) {
+    const className1: Middleware<any, any> = function className1(next, type, props, key) {
       return next(type, { ...props, className: `${props.className} c1` }, key);
     };
 
-    const className2: Middleware<any> = function className2(next, type, props, key) {
+    const className2: Middleware<any, any> = function className2(next, type, props, key) {
       return next(type, { ...props, className: `${props.className} c2` }, key);
     };
 
@@ -77,7 +78,7 @@ describe('jsx-middlewares', () => {
     });
 
     const notWrapped = <div className="go" key={5} />;
-    expect((notWrapped as any)[1]?.context as MiddlewareContext<any>).toEqual(mw);
+    expect((notWrapped as any)[1]?.context as MiddlewareContext<any, any>).toEqual(mw);
   });
 
   test('can use original to bypass other middlewares', () => {

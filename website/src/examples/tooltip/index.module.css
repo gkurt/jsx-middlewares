@@ -3,10 +3,6 @@
   position: relative;
 }
 
-.tooltipContainer:hover .tooltip {
-  display: flex;
-}
-
 .tooltip {
   display: none;
   position: absolute;
@@ -18,4 +14,9 @@
   color: white;
   border-radius: 2px;
   padding: 6px 12px;
+}
+
+/* Must come after the base `.tooltip` rule so the more specific selector wins. */
+.tooltipContainer:hover .tooltip {
+  display: flex;
 }

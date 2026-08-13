@@ -5,6 +5,10 @@
       "path": ".."
     },
     {
+      "name": "📦 jsx-middlewares",
+      "path": "../packages/jsx-middlewares"
+    },
+    {
       "name": "🌐 Website",
       "path": "../website"
     },
@@ -15,6 +19,7 @@
   ],
   "settings": {
     "files.exclude": {
+      "packages": true,
       "website": true,
       "examples": true
     },
@@ -23,16 +28,15 @@
       "source.organizeImports.biome": "explicit",
       "source.fixAll.biome": "explicit"
     },
-    "[js][jsx][ts][tsx][typescript][typescriptreact][javascript][javascriptreact][json][jsonc]": {
+    "[js][jsx][ts][tsx][typescript][typescriptreact][javascript][javascriptreact][json][jsonc][html][css][scss][markdown][mdx]": {
       "editor.defaultFormatter": "biomejs.biome"
     },
-    "[html][css][scss][markdown][mdx]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "editor.formatOnSave": true,
-    "typescript.preferences.quoteStyle": "single",
     "workbench.editor.labelFormat": "medium",
-    "typescript.tsdk": "🌴 Root/node_modules/typescript/lib",
-    "typescript.enablePromptUseWorkspaceTsdk": true
+    "js/ts.experimental.useTsgo": true,
+    "js/ts.preferences.quoteStyle": "single",
+    "js/ts.tsdk.path": "🌴 Root/node_modules/typescript/lib",
+    "js/ts.tsdk.promptToUseWorkspaceVersion": true,
+    "bun.test.enable": true
   }
 }

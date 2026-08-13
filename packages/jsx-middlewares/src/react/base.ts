@@ -1,4 +1,4 @@
-import { JSX, ReactNode } from 'react';
+import type { JSX, ReactNode } from 'react';
 import { createMiddlewareContext as baseCreateMiddlewareContext } from '../context.ts';
 
 export const createMiddlewareContext = baseCreateMiddlewareContext<JSX.Element, ReactNode>;

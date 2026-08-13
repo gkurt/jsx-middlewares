@@ -1,19 +1,13 @@
 /** @jsxImportSource jsx-middlewares/react */
 
-import {
-  Middleware,
-  addMiddlewares,
-  baseMiddlewares,
-  clearMiddlewares,
-  removeMiddlewares,
-} from 'jsx-middlewares/react';
+import { afterEach, describe, expect, test } from 'bun:test';
+import type { Middleware } from 'jsx-middlewares/react';
+import { addMiddlewares, baseMiddlewares, clearMiddlewares, removeMiddlewares } from 'jsx-middlewares/react';
 import 'jsx-middlewares/react/jsx-dev-runtime';
 
-vitest.mock('react/jsx-dev-runtime', () => {
-  const Fragment = Symbol('React.Fragment test');
-  const jsxDEV = (type: any, props: any, key: any) => [type, props, key] as any;
-  return { Fragment, jsxDEV };
-});
+// `react/jsx-dev-runtime` is stubbed in tests/preload.ts to return plain
+// `[type, props, key]` tuples, so the JSX expressions below are statically typed as
+// `ReactElement` but are tuples at runtime — hence the `as unknown` at each assertion.
 
 describe('jsx-middlewares/react', () => {
   afterEach(() => {
@@ -22,7 +16,7 @@ describe('jsx-middlewares/react', () => {
 
   test('returns the original results without middlewares', () => {
     const result = <div className={'testcn'} key={5} />;
-    expect(result).toEqual(['div', { className: 'testcn' }, 5]);
+    expect(result as unknown).toEqual(['div', { className: 'testcn' }, 5]);
   });
 
   test('can add and remove middlewares', () => {
@@ -45,6 +39,6 @@ describe('jsx-middlewares/react', () => {
     baseMiddlewares.addMiddlewares(className3);
 
     const result = <div title={'testtitle'} className={'c0'} key={5} />;
-    expect(result).toEqual(['div', { title: 'testtitle', className: 'c0 c3 c1' }, 5]);
+    expect(result as unknown).toEqual(['div', { title: 'testtitle', className: 'c0 c3 c1' }, 5]);
   });
 });

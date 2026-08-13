@@ -10,9 +10,7 @@ export type MiddlewareNextFn<JSXEl, Node> = {
 
 type Falsy = false | null | undefined | 0 | '';
 
-export type Middleware<JSXEl, Node> =
-  | Falsy
-  | ((next: MiddlewareNextFn<JSXEl, Node>, type: any, props: any, key: any) => Node);
+export type Middleware<JSXEl, Node> = Falsy | ((next: MiddlewareNextFn<JSXEl, Node>, type: any, props: any, key: any) => Node);
 
 export interface MiddlewareContext<JSXEl, Node> {
   addMiddlewares(...middlewares: Middleware<JSXEl, Node>[]): MiddlewareContext<JSXEl, Node>;

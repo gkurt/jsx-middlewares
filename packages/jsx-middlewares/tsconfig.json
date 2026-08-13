@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    // Only the test files contain JSX, and they exercise the dev runtime via
+    // `@jsxImportSource` pragmas — so the dev transform is the right default here.
+    "jsx": "react-jsxdev",
+
+    // Resolve `jsx-middlewares` (self-reference) to raw `src` in dev and tests
+    // instead of the built `dist`. Paired with `bun test --conditions=jsx-middlewares@dev`.
+    "customConditions": ["jsx-middlewares@dev"]
+  },
+  "include": ["src/**/*", "tests/**/*", "tsdown.config.ts"]
+}

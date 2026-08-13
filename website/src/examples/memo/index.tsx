@@ -1,6 +1,6 @@
 /** @jsxImportSource . */
 
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { type PropsWithChildren, useEffect, useRef, useState } from 'react';
 import BrowserWindow from '../../components/BrowserWindow';
 
 function Memoed({ children }: PropsWithChildren) {

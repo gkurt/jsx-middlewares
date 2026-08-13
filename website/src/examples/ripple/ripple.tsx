@@ -1,9 +1,9 @@
 import React, {
-  FC,
-  ReactElement,
-  RefObject,
   cloneElement,
+  type FC,
   forwardRef,
+  type ReactElement,
+  type RefObject,
   useCallback,
   useLayoutEffect,
   useRef,
@@ -120,10 +120,7 @@ export function useRipple(props: RippleBaseProps = {}) {
   return setTargetElement;
 }
 
-export const Ripple = forwardRef<HTMLElement, RippleComponentProps>(function _Ripple(
-  { children, component: Component, ...props },
-  ref,
-) {
+export const Ripple = forwardRef<HTMLElement, RippleComponentProps>(function _Ripple({ children, component: Component, ...props }, ref) {
   const ripple = useRipple(props);
   const mergedRef = useCallback(
     (val) => {

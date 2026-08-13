@@ -1,4 +1,4 @@
-import type { Middleware, MiddlewareContext, MiddlewareNextFn, jsxDEVFn, jsxFn } from './types.ts';
+import type { jsxDEVFn, jsxFn, Middleware, MiddlewareContext, MiddlewareNextFn } from './types.ts';
 
 export function createMiddlewareContext<JSXEl, Node = JSXEl>(
   defaultJsx?: jsxFn<JSXEl> | undefined,
@@ -6,14 +6,7 @@ export function createMiddlewareContext<JSXEl, Node = JSXEl>(
   defaultJsxDEV?: jsxDEVFn<JSXEl> | undefined,
   defaultFragment?: unknown,
 ) {
-  return createMiddlewareContextWithDefaults<JSXEl, Node>(
-    [],
-    [],
-    defaultJsx,
-    defaultJsxs,
-    defaultJsxDEV,
-    defaultFragment,
-  );
+  return createMiddlewareContextWithDefaults<JSXEl, Node>([], [], defaultJsx, defaultJsxs, defaultJsxDEV, defaultFragment);
 }
 
 function createMiddlewareContextWithDefaults<JSXEl, Node>(
@@ -34,9 +27,9 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
   let jsxDEVCb: jsxDEVFn<JSXEl | Node>;
 
   function refreshCallbacks() {
-    jsxCb = createCallback(defaultJsx?.bind(null)!);
+    jsxCb = createCallback(defaultJsx?.bind(null));
 
-    jsxsCb = createCallback(defaultJsxs?.bind(null)!);
+    jsxsCb = createCallback(defaultJsxs?.bind(null));
 
     // The chain only carries (type, props, key), so the extra jsxDEV arguments are threaded
     // through closure variables. Save/restore keeps them correct when a middleware creates
@@ -71,9 +64,12 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
     for (const cb of onChangeCallbacks) cb();
   }
 
-  function createCallback(jsx: jsxFn<JSXEl>) {
+  // `jsx` is optional: a context can be created without a default factory (a bare
+  // `createMiddlewareContext()`), in which case the innermost `next` of the chain is
+  // undefined and only middlewares that never call through are usable.
+  function createCallback(jsx: jsxFn<JSXEl> | undefined) {
     let cb = jsx as MiddlewareNextFn<JSXEl, Node>;
-    if (cb) {
+    if (jsx) {
       cb.context = ctx;
       cb.original = jsx;
     }
@@ -84,7 +80,7 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
 
       cb = mw.bind(null, cb) as MiddlewareNextFn<JSXEl, Node>;
       cb.context = ctx;
-      cb.original = jsx;
+      if (jsx) cb.original = jsx;
     }
 
     return cb;

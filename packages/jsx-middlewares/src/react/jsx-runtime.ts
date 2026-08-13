@@ -1,4 +1,5 @@
-import { Fragment, JSX, jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
+import type { JSX } from 'react/jsx-runtime';
+import { jsx as _jsx, jsxs as _jsxs, Fragment } from 'react/jsx-runtime';
 import { baseMiddlewares } from './base.ts';
 
 export { Fragment, type JSX } from 'react/jsx-runtime';

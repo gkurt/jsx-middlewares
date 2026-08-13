@@ -1,22 +1,27 @@
 {
+  "version": "2.0.0",
   "tasks": [
     {
-      "type": "npm",
-      "script": "start"
+      "label": "start",
+      "type": "shell",
+      "command": "bun run start"
     },
     {
-      "type": "npm",
-      "script": "build",
+      "label": "build",
+      "type": "shell",
+      "command": "bun run build",
       "group": "build"
     },
     {
-      "type": "npm",
-      "script": "preview"
+      "label": "test",
+      "type": "shell",
+      "command": "bun run test",
+      "group": "test"
     },
     {
-      "type": "npm",
-      "script": "test",
-      "group": "test"
+      "label": "checks",
+      "type": "shell",
+      "command": "bun run checks"
     }
   ]
 }

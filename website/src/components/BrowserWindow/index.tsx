@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { type CSSProperties, type ReactNode } from 'react';
-import React from 'react';
+import React, { type CSSProperties, type ReactNode } from 'react';
 import styles from './styles.module.css';
 
 interface Props {

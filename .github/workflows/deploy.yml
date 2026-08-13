@@ -1,3 +1,6 @@
+# Builds the Docusaurus docs site and deploys it to GitHub Pages.
+#
+# Requires Settings -> Pages -> Source = "GitHub Actions".
 name: Deploy to GitHub Pages
 
 on:
@@ -5,25 +8,44 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two Pages deployments at once, but let a queued one finish rather
+# than cancelling a deploy midway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  deploy:
-    name: Deploy to GitHub Pages
+  build:
+    name: Build site
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+      - run: bun i
 
-      - uses: actions/setup-node@v4
+      # The website resolves `jsx-middlewares` through the published `import`
+      # condition, so `dist` has to exist before the site is built.
+      - run: bun run build
+
+      - run: bun run --cwd website build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
         with:
-          node-version: latest
-          cache: npm
+          path: ./website/build
 
-      - run: npm i
-
-      - run: npm run build
-        working-directory: ./website
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./website/build
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -9,7 +9,9 @@
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.1);
   position: absolute;
-  transition: opacity 300ms ease-out, transform 450ms cubic-bezier(0, 0, 0.2, 1);
+  transition:
+    opacity 300ms ease-out,
+    transform 450ms cubic-bezier(0, 0, 0.2, 1);
   transform: translate(-50%, -50%) scale(1);
 }
 

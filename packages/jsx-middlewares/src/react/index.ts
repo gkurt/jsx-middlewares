@@ -1,8 +1,8 @@
-export type * from './types.ts';
 export {
-  createMiddlewareContext,
   addMiddlewares,
   baseMiddlewares,
   clearMiddlewares,
+  createMiddlewareContext,
   removeMiddlewares,
 } from './base.ts';
+export type * from './types.ts';
