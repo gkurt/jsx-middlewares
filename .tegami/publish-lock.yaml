@@ -1,20 +1,20 @@
 core:changelogs:
-  - content: "---\npackages:\n  npm:jsx-middlewares:\n    type: major\n---\n\n### The package is now ESM-only\n\n`jsx-middlewares` no longer ships a CommonJS build. The `main` field and the CJS\nentrypoints are gone; every export resolves through the `import` condition.\n\nIf you `require('jsx-middlewares')`, switch to an `import`, or stay on `2.x`.\nBundlers and modern Node/Bun consumers need no changes.\n\n### Published entrypoints now expose their source\n\nEach export also carries a `source` condition pointing at the original\nTypeScript, and `src/` is included in the published package, so tooling that\nprefers source can pick it up and stack traces map back to real files.\n"
-    filename: 2026-08-13-esm-only.md
+  - content: "---\npackages:\n  npm:jsx-middlewares:\n    type: patch\n---\n\n### `require()` no longer fails with a confusing \"no exports main defined\" error\n\nThe package stays ESM-only, but its `exports` map previously had no entry that a\nCommonJS resolution could match, so `require('jsx-middlewares')` failed with\n`ERR_PACKAGE_PATH_NOT_EXPORTED: No \"exports\" main defined` — which reads like a\nbroken package rather than an ESM-only one.\n\nEach entrypoint now also declares a `default` condition pointing at the same ESM\nbuild. On Node 22 and newer, `require()` of this package now works through\n`require(esm)`. On older Node it fails with the accurate `ERR_REQUIRE_ESM`\ninstead.\n\nNo CommonJS build was reintroduced, and there is still only one copy of the\nmodule, so middlewares registered through any entrypoint continue to share a\nsingle list.\n"
+    filename: 2026-08-13-cjs-require-error.md
     v: 0.0.0
 core:packages:
   - id: npm:@jsx-middlewares/root
     updated: false
   - id: npm:website
     updated: false
-  - id: npm:jsx-middlewares-example-vite
-    updated: false
   - changelogIds:
-      - 2026-08-13-esm-only.md
+      - 2026-08-13-cjs-require-error.md
     id: npm:jsx-middlewares
     updated: true
+  - id: npm:jsx-middlewares-example-vite
+    updated: false
 npm:packages:
   - id: npm:@jsx-middlewares/root
   - id: npm:website
-  - id: npm:jsx-middlewares-example-vite
   - id: npm:jsx-middlewares
+  - id: npm:jsx-middlewares-example-vite
