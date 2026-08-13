@@ -11,12 +11,15 @@ It implements a `$ripple` directive, which adds a ripple effect to all buttons i
 `$ripple` property can be set to false to disable ripple effect on buttons.
 
 ```jsx
-function rippleMiddleware(next, type, { $ripple, ...props }, key) {
+function rippleMiddleware(next, type, props, key) {
+  if (!('$ripple' in props) && type !== 'button') return next(type, props, key);
+
+  const { $ripple, ...rest } = props;
   if ($ripple || (type === 'button' && $ripple !== false)) {
-    return <Ripple>{next(type, props, key)}</Ripple>;
+    return <Ripple>{next(type, rest, key)}</Ripple>;
   }
 
-  return next(type, props, key);
+  return next(type, rest, key);
 }
 ```
 

@@ -10,16 +10,19 @@ This example shows you how to override a ref and add an event listener to it wit
 An `$onWheelActive` event is added to all DOM elements. It is similar to the `onWheel` event, but it sets `{ passive: false }` when registering the event.
 
 ```jsx
-function onWheelActiveDirective(next, type, { $onWheelActive, ...props }, key) {
+function onWheelActiveDirective(next, type, props, key) {
+  if (!('$onWheelActive' in props)) return next(type, props, key);
+
+  const { $onWheelActive, ...rest } = props;
   if ($onWheelActive) {
     return (
       <WithOnWheelActive callback={$onWheelActive} key={key}>
-        {next(type, props)}
+        {next(type, rest)}
       </WithOnWheelActive>
     );
   }
 
-  return next(type, props, key);
+  return next(type, rest, key);
 }
 ```
 

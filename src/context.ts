@@ -8,7 +8,7 @@ export function createMiddlewareContext<JSXEl, Node = JSXEl>(
 ) {
   return createMiddlewareContextWithDefaults<JSXEl, Node>(
     [],
-    undefined,
+    [],
     defaultJsx,
     defaultJsxs,
     defaultJsxDEV,
@@ -18,7 +18,9 @@ export function createMiddlewareContext<JSXEl, Node = JSXEl>(
 
 function createMiddlewareContextWithDefaults<JSXEl, Node>(
   middlewares: Middleware<JSXEl, Node>[] = [],
-  registerOnChange?: (cb: () => void) => void,
+  // Shared across the whole clone tree, so a middleware change through any context
+  // refreshes every context that composes the same middleware list.
+  onChangeCallbacks: (() => void)[] = [],
   defaultJsx?: jsxFn<JSXEl> | undefined,
   defaultJsxs?: jsxFn<JSXEl> | undefined,
   defaultJsxDEV?: jsxDEVFn<JSXEl> | undefined,
@@ -31,24 +33,43 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
   let jsxsCb: jsxFn<JSXEl | Node>;
   let jsxDEVCb: jsxDEVFn<JSXEl | Node>;
 
-  const registeredCallbacks: (() => void)[] = [];
-  const registerOnChangeFn = (cb: () => void) => registeredCallbacks.push(cb);
-
   function refreshCallbacks() {
     jsxCb = createCallback(defaultJsx?.bind(null)!);
 
     jsxsCb = createCallback(defaultJsxs?.bind(null)!);
 
-    jsxDEVCb = function jsxDEV(type, props, key, isStaticChildren, source, self) {
-      return createCallback(function defaultJsxDEVWrapper(type, props, key) {
-        return defaultJsxDEV!(type, props, key, isStaticChildren, source, self);
-      })(type, props, key);
-    } as jsxDEVFn<JSXEl>;
+    // The chain only carries (type, props, key), so the extra jsxDEV arguments are threaded
+    // through closure variables. Save/restore keeps them correct when a middleware creates
+    // nested elements before calling next.
+    let devIsStatic: boolean;
+    let devSource: any;
+    let devSelf: any;
+    const devChain = createCallback(function defaultJsxDEVWrapper(type, props, key) {
+      return defaultJsxDEV!(type, props, key, devIsStatic, devSource, devSelf);
+    });
 
-    for (const cb of registeredCallbacks) cb();
+    jsxDEVCb = function jsxDEV(type, props, key, isStaticChildren, source, self) {
+      const prevIsStatic = devIsStatic;
+      const prevSource = devSource;
+      const prevSelf = devSelf;
+      devIsStatic = isStaticChildren;
+      devSource = source;
+      devSelf = self;
+      try {
+        return devChain(type, props, key);
+      } finally {
+        devIsStatic = prevIsStatic;
+        devSource = prevSource;
+        devSelf = prevSelf;
+      }
+    } as jsxDEVFn<JSXEl>;
   }
 
-  registerOnChange?.(refreshCallbacks);
+  onChangeCallbacks.push(refreshCallbacks);
+
+  function notifyChange() {
+    for (const cb of onChangeCallbacks) cb();
+  }
 
   function createCallback(jsx: jsxFn<JSXEl>) {
     let cb = jsx as MiddlewareNextFn<JSXEl, Node>;
@@ -71,7 +92,7 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
 
   function addMiddlewares(...items: Middleware<JSXEl, Node>[]) {
     middlewares.push(...items);
-    refreshCallbacks();
+    notifyChange();
 
     return ctx;
   }
@@ -84,14 +105,14 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
       }
     }
 
-    refreshCallbacks();
+    notifyChange();
 
     return ctx;
   }
 
   function clearMiddlewares() {
     middlewares.length = 0;
-    refreshCallbacks();
+    notifyChange();
     return ctx;
   }
 
@@ -131,7 +152,7 @@ function createMiddlewareContextWithDefaults<JSXEl, Node>(
   ) {
     return createMiddlewareContextWithDefaults<TJSXEl, TNode>(
       middlewares as any,
-      registerOnChangeFn,
+      onChangeCallbacks,
       jsx || (defaultJsx as any),
       jsxs || (defaultJsxs as any),
       jsxDEV || (defaultJsxDEV as any),

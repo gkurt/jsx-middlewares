@@ -36,16 +36,19 @@ export const WithOnWheelActive = forwardRef<HTMLElement, any>(function _WithOnWh
   });
 });
 
-function onWheelActiveDirective(next, type, { $onWheelActive, ...props }, key) {
+function onWheelActiveDirective(next, type, props, key) {
+  if (!('$onWheelActive' in props)) return next(type, props, key);
+
+  const { $onWheelActive, ...rest } = props;
   if ($onWheelActive) {
     return (
       <WithOnWheelActive callback={$onWheelActive} key={key}>
-        {next(type, props)}
+        {next(type, rest)}
       </WithOnWheelActive>
     );
   }
 
-  return next(type, props, key);
+  return next(type, rest, key);
 }
 
 ctx.addMiddlewares(onWheelActiveDirective);

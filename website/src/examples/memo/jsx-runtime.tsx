@@ -6,7 +6,10 @@ export const { jsx, jsxDEV, jsxs } = ctx;
 
 const memoMap = new Map();
 
-ctx.addMiddlewares(function memoMiddleware(next, type, { $memo, ...props }, key) {
+ctx.addMiddlewares(function memoMiddleware(next, type, props, key) {
+  if (!('$memo' in props)) return next(type, props, key);
+
+  const { $memo, ...rest } = props;
   if ($memo && typeof type === 'function') {
     let memoed = memoMap.get(type);
     if (!memoed) {
@@ -14,8 +17,8 @@ ctx.addMiddlewares(function memoMiddleware(next, type, { $memo, ...props }, key)
       memoMap.set(type, memoed);
     }
 
-    return next(memoed, props, key);
+    return next(memoed, rest, key);
   }
 
-  return next(type, props, key);
+  return next(type, rest, key);
 });
