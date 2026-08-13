@@ -7,14 +7,14 @@
   "homepage": "https://gkurt.com/jsx-middlewares/",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/KurtGokhan/jsx-middlewares.git"
+    "url": "git+ssh://git@github.com/gkurt/jsx-middlewares.git"
   },
   "keywords": ["jsx", "react", "middleware", "decorator", "directive"],
   "license": "MIT",
   "author": {
     "name": "Gokhan Kurt",
     "email": "krtgkn@gmail.com",
-    "url": "https://github.com/KurtGokhan"
+    "url": "https://github.com/gkurt"
   },
   "files": ["*", "!*.tsbuildinfo"],
   "types": "./dist/index.d.ts",
