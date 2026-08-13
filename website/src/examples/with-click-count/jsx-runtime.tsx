@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { createLocalJsxContext } from '../setup';
 
+export type { JSX } from '../setup';
+
 const ctx = createLocalJsxContext();
 export const { jsx, jsxDEV, jsxs } = ctx;
 

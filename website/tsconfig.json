@@ -2,6 +2,10 @@
   // This file is not used in compilation. It is here just for a nice editor experience.
   "extends": "@tsconfig/docusaurus/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    // `@tsconfig/docusaurus` still sets the classic `"react"` transform, which
+    // requires `React` to be in scope in every JSX file. Docusaurus 3 compiles with
+    // the automatic runtime, so match it here.
+    "jsx": "react-jsx"
   }
 }

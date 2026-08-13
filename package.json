@@ -15,6 +15,7 @@
     "dev": "bun --filter=jsx-middlewares run dev",
     "build": "bun --filter=jsx-middlewares run build",
     "typecheck": "tsc && bun --filter=jsx-middlewares run typecheck",
+    "typecheck:website": "bun run --cwd website typecheck",
     "test": "bun --filter=jsx-middlewares run test",
     "lint": "biome lint",
     "format": "biome format",

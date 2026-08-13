@@ -73,8 +73,8 @@ const config = {
       },
       footer: {},
       prism: {
-        theme: themes.light,
-        darkTheme: themes.dark,
+        theme: themes.github,
+        darkTheme: themes.dracula,
         magicComments: [
           {
             className: 'theme-code-block-highlighted-line',

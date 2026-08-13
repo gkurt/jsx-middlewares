@@ -1,6 +1,8 @@
 import { createLocalJsxContext } from '../setup';
 import styles from './index.module.css';
 
+export type { JSX } from '../setup';
+
 const ctx = createLocalJsxContext();
 export const { jsx, jsxDEV, jsxs } = ctx;
 

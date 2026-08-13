@@ -2,6 +2,8 @@ import React from 'react';
 import { createLocalJsxContext } from '../setup';
 import { Ripple } from './ripple';
 
+export type { JSX } from '../setup';
+
 const ctx = createLocalJsxContext();
 export const { jsx, jsxDEV, jsxs } = ctx;
 

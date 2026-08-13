@@ -18,5 +18,9 @@ jobs:
       - run: bun run test
       - run: bun typecheck
       - run: bun run build
+
+      # These all need the built dist: the docs site resolves `jsx-middlewares`
+      # through the published `import` condition, and attw/publint pack the package.
+      - run: bun run typecheck:website
       - run: bun run attw
       - run: bun run publint

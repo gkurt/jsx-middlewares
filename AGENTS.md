@@ -16,7 +16,13 @@ bun run checks     # Everything: check + typecheck + test
 bun run build      # Build packages/jsx-middlewares/dist with tsdown (ESM-only)
 bun run attw       # Validate published types (esm-only profile)
 bun run publint    # Validate package publishing metadata
+
+bun run typecheck:website  # Type check the docs site — run `bun run build` first
 ```
+
+`typecheck:website` is separate from `bun typecheck` (and so from `checks`) because
+it needs `dist` to exist: the site resolves `jsx-middlewares` through the published
+`import` condition, not the `@dev` source condition. CI runs it after the build.
 
 Prefer these scripts over ad-hoc commands. Do not prefix them with `bun run` when
 a bare alias exists (`bun check`, `bun typecheck`) — those are whitelisted for
