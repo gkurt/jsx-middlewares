@@ -1,6 +1,3 @@
-// 20241207205244
-// https://raw.githubusercontent.com/KurtGokhan/gamestack/refs/heads/main/biome.jsonc?token=GHSAT0AAAAAAC2F2TNO4OB4AKS2SS5A3GQIZ2UROTQ
-
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "vcs": {
