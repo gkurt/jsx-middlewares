@@ -42,7 +42,8 @@
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
       },
-      "source": "./src/index.ts"
+      "source": "./src/index.ts",
+      "default": "./dist/index.mjs"
     },
     "./react": {
       "jsx-middlewares@dev": "./src/react/index.ts",
@@ -50,7 +51,8 @@
         "types": "./dist/react/index.d.mts",
         "default": "./dist/react/index.mjs"
       },
-      "source": "./src/react/index.ts"
+      "source": "./src/react/index.ts",
+      "default": "./dist/react/index.mjs"
     },
     "./react/jsx-runtime": {
       "jsx-middlewares@dev": "./src/react/jsx-runtime.ts",
@@ -58,7 +60,8 @@
         "types": "./dist/react/jsx-runtime.d.mts",
         "default": "./dist/react/jsx-runtime.mjs"
       },
-      "source": "./src/react/jsx-runtime.ts"
+      "source": "./src/react/jsx-runtime.ts",
+      "default": "./dist/react/jsx-runtime.mjs"
     },
     "./react/jsx-dev-runtime": {
       "jsx-middlewares@dev": "./src/react/jsx-dev-runtime.ts",
@@ -66,7 +69,8 @@
         "types": "./dist/react/jsx-dev-runtime.d.mts",
         "default": "./dist/react/jsx-dev-runtime.mjs"
       },
-      "source": "./src/react/jsx-dev-runtime.ts"
+      "source": "./src/react/jsx-dev-runtime.ts",
+      "default": "./dist/react/jsx-dev-runtime.mjs"
     }
   },
   "imports": {
